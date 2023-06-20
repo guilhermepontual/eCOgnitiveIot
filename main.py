@@ -1,6 +1,7 @@
 import streamlit as st
 import requests
 import pandas as pd
+import altair as alt
 
 logo_image = "ecognitive.png"
 st.image(logo_image, use_column_width=True)
@@ -25,6 +26,8 @@ with st.container():
     # calcular a porcentagem de poluente em relação ao total
     total = df["Quantidade do Poluente"].sum()
     df["Porcentagem"] = (df["Quantidade do Poluente"] / total) * 100
+    # Adicionar coluna de cor com base na quantidade do poluente
+    df["Cor"] = df["Porcentagem"].apply(lambda x: "Grave" if x > 5 else "Alerta" if 3 <= x <= 5 else "Estável")
     #df["Porcentagem"] = df["Porcentagem"].map("{:.2f}%".format)  # formata os valores como porcentagem
 
     period = st.selectbox("Selecione o período", ["7D", "15D", "30D", "MAX", "MIN"])
@@ -43,4 +46,11 @@ with st.container():
         filtered_df = df
 
     if st.button("Exibir Gráfico"):
-        st.bar_chart(filtered_df, x="Data", y="Porcentagem")
+        chart = alt.Chart(filtered_df).mark_bar().encode(
+            x="Data",
+            y="Porcentagem",
+            color=alt.Color("Cor:N", scale=alt.Scale(domain=["Estável", "Alerta", "Grave"],
+                                                     range=["#4ac26b", "#eac54f", "#ec6547"]))
+        )
+
+        st.altair_chart(chart, use_container_width=True)
