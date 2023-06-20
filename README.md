@@ -19,4 +19,3 @@ Ao abrir o aplicativo, você verá a tela inicial com a logo da aplicação.
 Use o seletor de período para selecionar o intervalo de dias (7D, 15D, 30D, MAX, MIN) para exibir o gráfico correspondente.
 Clique no botão "Exibir Gráfico" para exibir o gráfico com base no período selecionado.
 Explore os dados no gráfico interativo.
-Os valores na coluna "Quantidade de Poluente" estão em porcentagem.
